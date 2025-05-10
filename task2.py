@@ -5,7 +5,7 @@
 # 
 # 1. Есть ли путь между двумя заданными городами (вершинами)?
 # 2. Сколько всего островов (компонент связности) в графе?
-# 3.Перечислить, какие города принадлежат каждому острову.
+# 3. Перечислить, какие города принадлежат каждому острову.
 # 
 # Входные данные:
 # Первая строка: N (количество городов) и M (количество дорог).
@@ -60,3 +60,41 @@
 # 5: [5]
 # 6: [6]
 # 7: [7]
+def DFS(graph, start):
+    visited = [start]
+    i = -1
+    while True:
+        try:
+            cur = visited[i]
+        except IndexError:
+            return visited
+        next = None
+        for el in graph[cur]:
+            if el not in visited:
+                next = el
+                break
+        if next is None:
+            i -= 1
+        else:
+            visited.append(next)
+            i = -1
+
+
+n, m = map(int, input().split())
+graph = {i: [] for i in range(1, n + 1)}
+for _ in range(m):
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
+start, end = map(int, input().split())
+dct = dict()
+for start1 in range(1, n + 1):
+    dct[start1] = tuple(sorted(DFS(graph, start1)))
+if end in dct[start]:
+    print('YES')
+else:
+    print('NO')
+lst = sorted(list(set(dct.values())))
+print(len(lst))
+for i, el in enumerate(lst):
+    print(f'{i + 1}: {list(el)}')
