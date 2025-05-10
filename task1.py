@@ -5,8 +5,8 @@
 #
 # Обход начинается с заданной стартовой вершины.
 # Требуется:
-# 1.Реализовать DFS (Depth-First Search) — обход графа в глубину.
-# 2.Вернуть список вершин в порядке их посещения.
+# 1. Реализовать DFS (Depth-First Search) — обход графа в глубину.
+# 2. Вернуть список вершин в порядке их посещения.
 
 # Пример входных данных
 # graph = {
@@ -19,4 +19,30 @@
 # start = 1
 #
 # Пример выходных данных
-# [1, 2, 4, 3, 5]  # Возможен и другой порядок, зависящий от реализации DFS
+# [1, 2, 4, 3, 5] # Возможен и другой порядок, зависящий от реализации DFS
+graph = {
+    1: [2, 3],
+    2: [1, 4],
+    3: [1, 5],
+    4: [2],
+    5: [3]
+}
+start = 1
+visited = [start]
+i = -1
+while True:
+    try:
+        cur = visited[i]
+    except IndexError:
+        print(visited)
+        break
+    next = None
+    for el in graph[cur]:
+        if el not in visited:
+            next = el
+            break
+    if next is None:
+        i -= 1
+    else:
+        visited.append(next)
+        i = -1
