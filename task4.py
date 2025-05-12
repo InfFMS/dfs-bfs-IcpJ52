@@ -31,3 +31,37 @@
 # 1 → 2 → 3 → 1 (цикл!)
 # Вывод:
 # -1
+def Kann(graf):
+    dct = {el: 0 for el in graf}
+    for val in graf.values():
+        for el in dct:
+            if el in val:
+                dct[el] += 1
+    queue = []
+    for el in dct:
+        if dct[el] == 0:
+            queue.append(el)
+    i = 0
+    while True:
+        try:
+            vert = queue[i]
+        except IndexError:
+            if len(queue) == 0:
+                return [-1]
+            return queue
+        i += 1
+        lst = graf[vert]
+        for el in lst:
+            dct[el] -= 1
+            if dct[el] == 0:
+                if el in queue:
+                    return [-1]
+                queue.append(el)
+
+
+n, m = map(int, input().split())
+graf = {i: [] for i in range(1, n + 1)}
+for _ in range(m):
+    a, b = map(int, input().split())
+    graf[a].append(b)
+print(*Kann(graf))
